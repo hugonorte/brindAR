@@ -123,7 +123,7 @@ flutter run -d chrome
 
 1. Abra **Configurações** no seu Android.
 2. Vá em **Sobre o telefone**.
-3. Toque **7 vezes** em **Número de build** até ver a mensagem *"Você agora é um desenvolvedor"*.
+3. Toque **7 vezes** em `informações do software>número de compilação` até ver a mensagem *"Você agora é um desenvolvedor"*.
 4. Volte para **Configurações** → **Opções do desenvolvedor** (pode estar em *Sistema* dependendo do modelo).
 5. Ative **Depuração USB**.
 
