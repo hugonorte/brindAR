@@ -63,8 +63,8 @@ class _HomeViewState extends State<HomeView> {
         ),
         const SizedBox(height: 4),
         Text(
-          'Boa noite, Hugo!',
-          style: Theme.of(context).textTheme.displayLarge,
+          'Boa noite, Hugo!!',
+          style: Theme.of(context).textTheme.headlineMedium, // ~28px
         ),
       ],
     ).animate().fadeIn().slideX(begin: -0.1);
@@ -79,7 +79,11 @@ class _HomeViewState extends State<HomeView> {
         children: [
           Row(
             children: [
-              const Icon(LucideIcons.bookOpen, color: AppTheme.primary, size: 20),
+              const Icon(
+                LucideIcons.bookOpen,
+                color: AppTheme.primary,
+                size: 20,
+              ),
               const SizedBox(width: 12),
               Text(
                 'Base de Conhecimento',
@@ -110,9 +114,21 @@ class _HomeViewState extends State<HomeView> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              _buildPairingCard('Carnes Vermelhas', 'Cabernet Sauvignon', LucideIcons.beef),
-              _buildPairingCard('Queijos Maturados', 'Merlot ou Syrah', LucideIcons.utensils),
-              _buildPairingCard('Frutos do Mar', 'Sauvignon Blanc', LucideIcons.fish),
+              _buildPairingCard(
+                'Carnes Vermelhas',
+                'Cabernet Sauvignon',
+                LucideIcons.beef,
+              ),
+              _buildPairingCard(
+                'Queijos Maturados',
+                'Merlot ou Syrah',
+                LucideIcons.utensils,
+              ),
+              _buildPairingCard(
+                'Frutos do Mar',
+                'Sauvignon Blanc',
+                LucideIcons.fish,
+              ),
             ],
           ),
         ),
@@ -132,12 +148,16 @@ class _HomeViewState extends State<HomeView> {
             const SizedBox(height: 16),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 16),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontSize: 16),
             ),
             const SizedBox(height: 4),
             Text(
               wine,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppTheme.primary),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppTheme.primary),
             ),
           ],
         ),
@@ -159,10 +179,12 @@ class _HomeViewState extends State<HomeView> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 20),
-            ...provider.ranking.map((wine) => Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: _buildRankingItem(wine),
-                )),
+            ...provider.ranking.map(
+              (wine) => Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: _buildRankingItem(wine),
+              ),
+            ),
           ],
         );
       },
@@ -182,7 +204,11 @@ class _HomeViewState extends State<HomeView> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              _buildVideoCard('Dicas de Decantação', 'Sommelier João', '1.2k likes'),
+              _buildVideoCard(
+                'Dicas de Decantação',
+                'Sommelier João',
+                '1.2k likes',
+              ),
               _buildVideoCard('Cabernet vs Merlot', 'Ana Vinhos', '850 likes'),
               _buildVideoCard('Temperatura Ideal', 'Vinho 101', '2.1k likes'),
             ],
@@ -207,9 +233,13 @@ class _HomeViewState extends State<HomeView> {
             height: 100,
             decoration: BoxDecoration(
               color: AppTheme.primary.withAlpha((0.1 * 255).toInt()),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(16),
+              ),
             ),
-            child: const Center(child: Icon(LucideIcons.play, color: AppTheme.primary)),
+            child: const Center(
+              child: Icon(LucideIcons.play, color: AppTheme.primary),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(12.0),
@@ -218,22 +248,33 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 12),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelLarge?.copyWith(fontSize: 12),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   author,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontSize: 10),
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(LucideIcons.heart, size: 10, color: AppTheme.primary),
+                    const Icon(
+                      LucideIcons.heart,
+                      size: 10,
+                      color: AppTheme.primary,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       likes,
-                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -250,14 +291,14 @@ class _HomeViewState extends State<HomeView> {
       padding: const EdgeInsets.all(12),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              wine.imagePath,
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: AppTheme.primary.withAlpha((0.08 * 255).toInt()),
+              borderRadius: BorderRadius.circular(12),
             ),
+            child: const Icon(LucideIcons.wine, color: AppTheme.primary, size: 32),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -266,22 +307,26 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 Text(
                   wine.name,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 18),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontSize: 18),
                 ),
-                Text(
-                  wine.type,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                Text(wine.type, style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.surfaceContainerLow,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     wine.tag,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppTheme.primary),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelLarge?.copyWith(color: AppTheme.primary),
                   ),
                 ),
               ],
@@ -289,7 +334,11 @@ class _HomeViewState extends State<HomeView> {
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(LucideIcons.chevronRight, color: AppTheme.secondary, size: 20),
+            icon: const Icon(
+              LucideIcons.chevronRight,
+              color: AppTheme.secondary,
+              size: 20,
+            ),
           ),
         ],
       ),
@@ -329,9 +378,15 @@ class _HomeViewState extends State<HomeView> {
       onTap: () {
         setState(() => _selectedIndex = index);
         if (index == 1) {
-          Navigator.pushNamed(context, '/scan').then((_) => setState(() => _selectedIndex = 0));
+          Navigator.pushNamed(
+            context,
+            '/scan',
+          ).then((_) => setState(() => _selectedIndex = 0));
         } else if (index == 2) {
-          Navigator.pushNamed(context, '/library').then((_) => setState(() => _selectedIndex = 0));
+          Navigator.pushNamed(
+            context,
+            '/library',
+          ).then((_) => setState(() => _selectedIndex = 0));
         }
       },
       child: Column(
