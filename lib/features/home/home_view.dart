@@ -215,6 +215,7 @@ class _HomeViewState extends State<HomeView> {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
+        final orderedRanking = _orderedWineRanking(provider.ranking);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -223,10 +224,13 @@ class _HomeViewState extends State<HomeView> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 20),
-            ...provider.ranking.map(
-              (wine) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: _buildRankingItem(wine),
+            ...orderedRanking.asMap().entries.map(
+              (entry) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _buildRankingItem(
+                  entry.value,
+                  position: entry.key + 1,
+                ),
               ),
             ),
           ],
@@ -330,68 +334,162 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildRankingItem(Wine wine) {
-    return BrindarCard(
-      padding: const EdgeInsets.all(12),
+  Widget _buildRankingItem(Wine wine, {required int position}) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppTheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0A1C1C18),
+            blurRadius: 32,
+            offset: Offset(0, 8),
+          ),
+        ],
+      ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(
+            width: 40,
+            child: Text(
+              position.toString(),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                    fontSize: 34,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.primary.withAlpha((0.28 * 255).round()),
+                  ),
+            ),
+          ),
+          const SizedBox(width: 12),
           Container(
-            width: 80,
-            height: 80,
+            width: 56,
+            height: 56,
             decoration: BoxDecoration(
-              color: AppTheme.primary.withAlpha((0.08 * 255).toInt()),
+              color: AppTheme.surfaceContainerLow,
               borderRadius: BorderRadius.circular(12),
             ),
             child: wine.imageUrl.isNotEmpty
                 ? ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(wine.imageUrl, fit: BoxFit.cover),
-                )
-                : const Icon(LucideIcons.wine, color: AppTheme.primary, size: 32),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      wine.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : const Icon(
+                    LucideIcons.wine,
+                    color: AppTheme.primary,
+                    size: 24,
+                  ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  wine.name,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge?.copyWith(fontSize: 18),
+                  _rankDisplayName(wine),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontSize: 15,
+                        height: 1.1,
+                      ),
                 ),
-                Text(wine.type, style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: 4),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surfaceContainerLow,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    wine.tag,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelLarge?.copyWith(color: AppTheme.primary),
-                  ),
+                Text(
+                  wine.tag,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontSize: 11,
+                        letterSpacing: 0.8,
+                        color: AppTheme.secondary,
+                      ),
                 ),
               ],
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              LucideIcons.chevronRight,
-              color: AppTheme.secondary,
-              size: 20,
-            ),
+          const SizedBox(width: 12),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                _rankDisplayScore(wine, position),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: 15,
+                      color: AppTheme.primary,
+                    ),
+              ),
+              const SizedBox(height: 2),
+              const Icon(
+                Icons.star,
+                size: 16,
+                color: AppTheme.secondary,
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  List<Wine> _orderedWineRanking(List<Wine> ranking) {
+    const preferredOrder = [
+      'Radal Reserve',
+      'Condor Peak',
+      'Pueblo del Sol',
+    ];
+
+    final byName = <String, Wine>{
+      for (final wine in ranking) wine.name: wine,
+    };
+    final ordered = <Wine>[];
+
+    for (final name in preferredOrder) {
+      final wine = byName.remove(name);
+      if (wine != null) {
+        ordered.add(wine);
+      }
+    }
+
+    ordered.addAll(byName.values);
+    return ordered;
+  }
+
+  String _rankDisplayName(Wine wine) {
+    final origin = wine.origin.toLowerCase();
+    final flag = origin == 'chile'
+        ? '🇨🇱'
+        : origin == 'argentina'
+            ? '🇦🇷'
+            : (origin == 'uruguai' || origin == 'uruguay')
+                ? '🇺🇾'
+                : '';
+
+    return flag.isEmpty ? wine.name : '$flag ${wine.name}';
+  }
+
+  String _rankDisplayScore(Wine wine, int position) {
+    switch (wine.name) {
+      case 'Radal Reserve':
+        return '4.8';
+      case 'Condor Peak':
+        return '4.6';
+      case 'Pueblo del Sol':
+        return '4.5';
+      default:
+        if (position == 1) return '4.8';
+        if (position == 2) return '4.6';
+        if (position == 3) return '4.5';
+        return wine.score;
+    }
   }
 
   Widget _buildBottomNav() {
