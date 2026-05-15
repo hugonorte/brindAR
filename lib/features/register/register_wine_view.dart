@@ -112,6 +112,7 @@ class _RegisterWineViewState extends State<RegisterWineView> {
       temperature: '${_temperatureCtrl.text.trim()}°C',
       tag: '',
       sommelierNote: _noteCtrl.text.trim(),
+      imageUrl: _editingWine?.imageUrl ?? '',
     );
 
     final provider = context.read<WineProvider>();

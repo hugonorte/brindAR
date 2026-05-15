@@ -71,32 +71,60 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildKnowledgeBase() {
-    return BrindarCard(
-      useTonalShift: true,
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(
-                LucideIcons.bookOpen,
-                color: AppTheme.primary,
-                size: 20,
+    return Container(
+      height: 240,
+      width: double.infinity,
+      child: BrindarCard(
+        useTonalShift: false,
+        padding: EdgeInsets.zero,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.network(
+                  'https://lh3.googleusercontent.com/aida-public/AB6AXuCYLrtSDJF-3XOatDco62Dj8PeEpoxwRtBSCpDgZ7_9RnIP3iCBA3SG_MHf26AdskC143C58IvVbYfX4x__MRmEl2GIIur7XwkDX8Mmw01qxsz-InbNvA5YxJUfYcx8JrUkrN2SUO-1XBe_I8tc62OC13F0Xj32z7FBvcF_d5DDSgp_nImFQrh6uBTjLaev1Ft6Mi-WhGl1cr0gZj337tBLOLLIuUppNW0qBcNRxfyYcdkcWftd2NQ7STMeXVKVs4ZajSPdpVU-Kik',
+                  fit: BoxFit.cover,
+                  color: Colors.black.withAlpha((0.3 * 255).toInt()),
+                  colorBlendMode: BlendMode.darken,
+                ),
               ),
-              const SizedBox(width: 12),
-              Text(
-                'Base de Conhecimento',
-                style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        LucideIcons.bookOpen,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Base de Conhecimento',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Aqui você tirará todas as suas dúvidas sobre vinho',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+                  ),
+                ],
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Aqui você tirará todas as suas dúvidas sobre vinho',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     ).animate().fadeIn(delay: 200.ms).scale(begin: const Offset(0.95, 0.95));
   }
@@ -117,17 +145,17 @@ class _HomeViewState extends State<HomeView> {
               _buildPairingCard(
                 'Carnes Vermelhas',
                 'Cabernet Sauvignon',
-                LucideIcons.beef,
+                'https://lh3.googleusercontent.com/aida-public/AB6AXuCPl8-yizDWbzD_6GpxRkGoS1dnLEGtL14dgzFsOyv31yRchQNAVbXj3cniH2ZcKEquCbaoh2QTU_8nsHixm9HNozE2E9yBaChY67AycbyQ18xzJzB2zqdNWkZjutQgYR0XlPmKZA0tp548UXglRJkoB2DxwmTH_vR49U69CpfaVxV7oBMq1cD6YPFxkP9ZTqgEIxwaTyyVWC16I0CmJ3pww1zAcbH3We4SKInE4gKybTfkO0vOHXYQySDlURqUC3utfzWccS_rLMY',
               ),
               _buildPairingCard(
                 'Queijos Maturados',
                 'Merlot ou Syrah',
-                LucideIcons.utensils,
+                'https://lh3.googleusercontent.com/aida-public/AB6AXuDkdOvHYUwy2dIaFxLrGLQEnFiOB6mbKS3yk3fCDxxEY868_nkxkEgp1WpXi8zs0WxC3G5wAYSO72eby-KDCcXgglaYU_jI6xeTHcUiKnnvrsOsrnZoT5Icbzxj-6jCd6O0ivgnTD3unUgo3JCHg0QP0rXY4evORsg6nONCZt9R6B6NUVITTUzvX0sF9MouQE0Y2frtn6zFCiv7jb0ovQuevPylmgvcmntv1YnFAC29COiNFLtNd5s5Zw2_B8-SML_6RCSA0Sd6QwU',
               ),
               _buildPairingCard(
                 'Frutos do Mar',
                 'Sauvignon Blanc',
-                LucideIcons.fish,
+                'https://lh3.googleusercontent.com/aida-public/AB6AXuAtMD-0Mg1vbcmbLJSFgLTxlL8Az6PMbmJJGsND3e1sQIsmiBnvxw1UlxQVN85TIyCXUQ90Xqd_vdLLtE5CIgPEnuk9iymYEwCproaT-g3dbgMdLInBB-VJnseRQYoKBrFb3Fe3HGJWlPJVfunxhzDIpbLPy9gYVxH4QA1OPcyiM7c4Nl8COD1a1YjIfj1LCe7up0oRJS0yuN4G3S80kd9bmgBgS_rylMgq37S1AdedlzOpY8N3p0Hp4jmI4JwTSA9cP2eC1FqOfcM',
               ),
             ],
           ),
@@ -136,28 +164,44 @@ class _HomeViewState extends State<HomeView> {
     ).animate().fadeIn(delay: 400.ms);
   }
 
-  Widget _buildPairingCard(String title, String wine, IconData icon) {
+  Widget _buildPairingCard(String title, String wine, String imageUrl) {
     return Container(
       width: 200,
       margin: const EdgeInsets.only(right: 16),
       child: BrindarCard(
+        padding: EdgeInsets.zero,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, color: AppTheme.primary, size: 28),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontSize: 16),
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              child: Image.network(
+                imageUrl,
+                height: 120,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
-            const SizedBox(height: 4),
-            Text(
-              wine,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: AppTheme.primary),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleLarge?.copyWith(fontSize: 16),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    wine,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: AppTheme.primary),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -298,7 +342,12 @@ class _HomeViewState extends State<HomeView> {
               color: AppTheme.primary.withAlpha((0.08 * 255).toInt()),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(LucideIcons.wine, color: AppTheme.primary, size: 32),
+            child: wine.imageUrl.isNotEmpty
+                ? ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(wine.imageUrl, fit: BoxFit.cover),
+                )
+                : const Icon(LucideIcons.wine, color: AppTheme.primary, size: 32),
           ),
           const SizedBox(width: 16),
           Expanded(

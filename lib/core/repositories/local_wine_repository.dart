@@ -9,7 +9,7 @@ import 'package:brindar/core/repositories/wine_repository.dart';
 class LocalWineRepository implements WineRepository {
   static const _dbName = 'brindar.db';
   static const _tableName = 'wines';
-  static const _dbVersion = 1;
+  static const _dbVersion = 2;
 
   Database? _db;
 
@@ -26,6 +26,13 @@ class LocalWineRepository implements WineRepository {
     return openDatabase(
       path,
       version: _dbVersion,
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute(
+            'ALTER TABLE $_tableName ADD COLUMN imageUrl TEXT NOT NULL DEFAULT ""',
+          );
+        }
+      },
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE $_tableName (
@@ -41,7 +48,8 @@ class LocalWineRepository implements WineRepository {
             body TEXT NOT NULL,
             temperature TEXT NOT NULL,
             tag TEXT NOT NULL,
-            sommelierNote TEXT NOT NULL
+            sommelierNote TEXT NOT NULL,
+            imageUrl TEXT NOT NULL
           )
         ''');
 

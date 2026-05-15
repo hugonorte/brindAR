@@ -12,6 +12,7 @@ class Wine {
   final String temperature;
   final String tag;
   final String sommelierNote;
+  final String imageUrl;
 
   Wine({
     required this.id,
@@ -27,6 +28,7 @@ class Wine {
     required this.temperature,
     required this.tag,
     required this.sommelierNote,
+    required this.imageUrl,
   });
 
   /// Serializes to a SQLite-compatible map.
@@ -44,23 +46,25 @@ class Wine {
         'temperature': temperature,
         'tag': tag,
         'sommelierNote': sommelierNote,
+        'imageUrl': imageUrl,
       };
 
   /// Deserializes from a SQLite row map.
   factory Wine.fromMap(Map<String, dynamic> map) => Wine(
-        id: map['id'] as String,
-        barcode: map['barcode'] as String,
-        name: map['name'] as String,
-        type: map['type'] as String,
-        origin: map['origin'] as String,
-        region: map['region'] as String,
-        vintage: map['vintage'] as String,
-        score: map['score'] as String,
-        abv: map['abv'] as String,
-        body: map['body'] as String,
-        temperature: map['temperature'] as String,
-        tag: map['tag'] as String,
-        sommelierNote: map['sommelierNote'] as String,
+        id: map['id'] as String? ?? '',
+        barcode: map['barcode'] as String? ?? '',
+        name: map['name'] as String? ?? '',
+        type: map['type'] as String? ?? '',
+        origin: map['origin'] as String? ?? '',
+        region: map['region'] as String? ?? '',
+        vintage: map['vintage'] as String? ?? '',
+        score: map['score'] as String? ?? '',
+        abv: map['abv'] as String? ?? '',
+        body: map['body'] as String? ?? '',
+        temperature: map['temperature'] as String? ?? '',
+        tag: map['tag'] as String? ?? '',
+        sommelierNote: map['sommelierNote'] as String? ?? '',
+        imageUrl: map['imageUrl'] as String? ?? '',
       );
 
   Wine copyWith({
@@ -77,6 +81,7 @@ class Wine {
     String? temperature,
     String? tag,
     String? sommelierNote,
+    String? imageUrl,
   }) =>
       Wine(
         id: id ?? this.id,
@@ -92,6 +97,7 @@ class Wine {
         temperature: temperature ?? this.temperature,
         tag: tag ?? this.tag,
         sommelierNote: sommelierNote ?? this.sommelierNote,
+        imageUrl: imageUrl ?? this.imageUrl,
       );
 
   // ── Seed data for MVP ────────────────────────────────────────────────────────
@@ -111,6 +117,8 @@ class Wine {
         tag: 'Melhor Custo Benefício',
         sommelierNote:
             'Um vinho tinto encorpado com notas de frutas vermelhas e carvalho.',
+        imageUrl:
+            'https://lh3.googleusercontent.com/aida-public/AB6AXuAzFdh7aPHLu8Eh3tMZqJSL7wTyZenwPbtdNKxwXqp-DCmcphjugIbUKl66-sAB6hHw7gkncXpfvLyKBUNkVgAQr_P03zQi8gSGNwAT4MnnnfP0F6x97FEl6xnl5upRT90uU3FuBFDDOWQTKhRC8W1D-Lv_TG_qBGMNz6vbrGAtar-sx85DJO_QklQE3i6PIKq9W-o2U_LgmURD2JaJaVHN9aRqMdS3LNoU6vJSfJwKZQSpot3NFuTEUC5e1TYA_4XwFs9hebJmg_g',
       );
 
   static Wine seedCondor() => Wine(
@@ -127,6 +135,8 @@ class Wine {
         temperature: '16°C',
         tag: 'Favorito da Comunidade',
         sommelierNote: 'Elegante e suave, com taninos bem integrados.',
+        imageUrl:
+            'https://lh3.googleusercontent.com/aida-public/AB6AXuCzLDNWrcs0CFyfalNy4YeCJiSjQWrztRQT6iKb8Yo5mrOFmCB7tyUhxnF_sAd1GQNt2KR5P5igjrNL4-HBZUMdAIamDFrPlF_Iqs81nzF0-U5sanQ__UdAnw9GhViSF7Qg0IHW17NlN0V2vdZ6epEBeiTJQaiRUkstMGeyQLkq9uV8CMIfGmnI-k2S00k--jszyX9wpagVVkb1ihFm_i4JsGqwIxnOf8OKYgVnfhEI2K3ze7UOJO3O2E-jwQr-hUrg0XhYy-g5n2U',
       );
 
   static Wine seedPueblo() => Wine(
@@ -143,5 +153,7 @@ class Wine {
         temperature: '14°C',
         tag: 'Aposta do Sommelier',
         sommelierNote: 'Fresco e frutado, ideal para acompanhar pratos leves.',
+        imageUrl:
+            'https://lh3.googleusercontent.com/aida-public/AB6AXuDChnEoTD5VVurOyI8nswxNz2-bkIrZtbENSsBWbL4c7P6mUnobBZLfyMi6B_gVRHLJwN7nj8PPObm3X6quU7KQkfNpFoVnB3yr-VQBhLkJseeeg--WwrWUkx4sq5PdZouJLvbE0LSD_SGtzjeBTFTbdcH1g2xMgMMLZTH1Yx_GYszbDXJcSf7LZuSxZkVgjq2e8hth-FlWmDFiavJ6hy06LWcY6C_FGjN_E1zleT3Hwfs6jfm2R7VjXk1KEobbpeYVEMMy0kytLY8',
       );
 }

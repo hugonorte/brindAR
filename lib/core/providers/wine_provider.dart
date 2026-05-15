@@ -16,8 +16,7 @@ class WineProvider extends ChangeNotifier {
   bool _isLoading = false;
 
   List<Wine> get library => _library;
-  List<Wine> get ranking => [..._library]
-    ..sort((a, b) => b.score.compareTo(a.score));
+  List<Wine> get ranking => _library;
   Wine? get scannedWine => _scannedWine;
   String? get scannedBarcode => _scannedBarcode;
   ScanState get scanState => _scanState;
@@ -30,6 +29,10 @@ class WineProvider extends ChangeNotifier {
     notifyListeners();
 
     _library = await _repository.getAll();
+    print('DEBUG: Library loaded with ${_library.length} wines');
+    for (var w in _library) {
+      print('DEBUG: Wine id=${w.id}, name=${w.name}, score=${w.score}');
+    }
 
     _isLoading = false;
     notifyListeners();
